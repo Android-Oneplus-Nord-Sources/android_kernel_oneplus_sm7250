@@ -2542,11 +2542,11 @@ static void goodix_get_health_info(void *chip_data, struct monitor_data *mon_dat
 	struct chip_data_gt9886 *chip_info = (struct chip_data_gt9886 *)chip_data;
 	struct goodix_health_info *health_info;
 	struct goodix_health_info *health_local = &chip_info->health_info;
-	u8 log[sizeof(struct goodix_health_info)];
+	u8 log[20];
 	int ret = 0;
 	u8 clear_flag = 0;
 
-	ret = touch_i2c_read_block(chip_info->client, chip_info->reg_info.GTP_REG_DEBUG, sizeof(struct goodix_health_info), log);
+	ret = touch_i2c_read_block(chip_info->client, chip_info->reg_info.GTP_REG_DEBUG, 20, log);
 	if (ret < 0) {
 		TPD_INFO("%s: read debug log data i2c faild\n", __func__);
 		goto END_HEALTH;
