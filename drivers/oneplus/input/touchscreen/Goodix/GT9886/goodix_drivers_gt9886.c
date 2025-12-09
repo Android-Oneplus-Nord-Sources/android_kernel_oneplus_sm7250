@@ -3951,7 +3951,7 @@ static int normandy_sync_read_rawdata(struct i2c_client *client,
 {
 	int ret = 0;
 	int retry_times = 0;
-	unsigned char sync_data[0];
+	unsigned char sync_data[1];
 
 
 	TPD_INFO("%s run,reg_addr:0x%04x,len:%d,sync_addr:0x%04x,sync_mask:0x%x\n",
@@ -3959,6 +3959,7 @@ static int normandy_sync_read_rawdata(struct i2c_client *client,
 
 	while(retry_times ++ < 200) {
 		sync_data[0] = 0x00;
+		sync_data[1] = 0x00;
 		msleep(10);
 		ret = touch_i2c_read_block(client, sync_addr, 1, sync_data);
 		if(ret < 0 || ((sync_data[0] & sync_mask) == 0)) {
@@ -3983,6 +3984,7 @@ static int normandy_sync_read_rawdata(struct i2c_client *client,
 	} else {
 		TPD_INFO("sync read rawdata,get rawdata success\n");
 		sync_data[0] = 0x00;
+		sync_data[1] = 0x00;
 		ret = touch_i2c_write_block(client, sync_addr, 1, sync_data);
 		TPD_INFO("sync read rawdata,clear sync\n");
 		ret = 0;
